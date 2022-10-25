@@ -3,6 +3,7 @@ package ba.unsa.etf.rpr;
 /**
  * Hello world!
  * comment by dino
+ * saso mange
  */
 public class App 
 {
