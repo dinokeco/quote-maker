@@ -1,9 +1,6 @@
 package ba.unsa.etf.rpr.t1;
 
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 /**
  * @author Dino Keco

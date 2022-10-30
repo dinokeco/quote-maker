@@ -3,6 +3,7 @@ package ba.unsa.etf.rpr.t1;
 /**
  * Dummy class that represents the clock
  * @author Dino Keco
+ * @version 1.0
  * */
 public class Clock {
 

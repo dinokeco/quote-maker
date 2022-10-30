@@ -11,7 +11,7 @@ public class Addition {
 
     /**
      * entry method for console application for addition
-     * @param args input arguments from console <i>asdas</i>
+     * @param args input arguments from console
      * */
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
