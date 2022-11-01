@@ -8,17 +8,18 @@ public class FractionTest {
 
     @Test
     void defaultConstructor() {
+
         assertEquals(new Fraction().toString(), "1/1");
     }
 
     @Test
     void divisionByZeroConstructor() {
-        /*assertThrows(IllegalArgumentException.class, new Executable() {
+        assertThrows(IllegalArgumentException.class, new Executable() {
             @Override
             public void execute() throws Throwable {
                 new Fraction(5, 0);
             }
-        });*/
+        });
 
         assertThrows(IllegalArgumentException.class, () -> {
             new Fraction(5, 0);
@@ -52,7 +53,7 @@ public class FractionTest {
     void toDouble() {
         Fraction r = new Fraction(15, 6);
         r.reduce();
-        assertEquals(r.toDouble(), 2.5);
+        assertEquals(2.5, r.toDouble());
     }
 
     @Test
