@@ -9,6 +9,11 @@ import java.util.List;
  */
 public class MathUtils {
 
+    /**
+     * get minimal element from list
+     * @param numbers
+     * @return
+     */
     public static Double min(List<Double> numbers){
         double min = Double.MAX_VALUE;
         for(Double num : numbers){
@@ -19,6 +24,11 @@ public class MathUtils {
         return min;
     }
 
+    /**
+     * get maximal element from the list
+     * @param numbers
+     * @return
+     */
     public static Double max(List<Double> numbers){
         double max = Double.MIN_VALUE;
         for(Double num : numbers){
@@ -29,6 +39,11 @@ public class MathUtils {
         return max;
     }
 
+    /**
+     * Calculate mean value of elements in the list
+     * @param numbers
+     * @return
+     */
     public static Double mean(List<Double> numbers){
         double sum = 0;
         for(Double num : numbers){
@@ -38,7 +53,7 @@ public class MathUtils {
     }
 
     /**
-     * calculate stdev sqrt(∑(Xi - ų)2 / N)
+     * calculate standard deviation using this formula: sqrt((∑(Xi - ų)^2) / N)
      * @param numbers
      * @return
      */

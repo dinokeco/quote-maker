@@ -1,21 +1,24 @@
 package ba.unsa.etf.rpr.p6.dao;
 
 import ba.unsa.etf.rpr.p6.Pet;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PetDaoJsonImpl extends PetDaoFile{
+/**
+ * Persistance into file using JSON serialization with Jackson library
+ * @author Dino Keco
+ */
+public class PetDaoJsonImpl extends AbstractPetDaoFile {
 
     private ObjectMapper mapper;
 
-    public PetDaoJsonImpl(){
+    @Override
+    protected void setup() {
         this.file = new File("mypets.json");
         this.mapper = new ObjectMapper();
 
@@ -23,10 +26,11 @@ public class PetDaoJsonImpl extends PetDaoFile{
             this.pets = mapper.readValue(this.file, new TypeReference<List<Pet>>(){});
         } catch (IOException e) {
             this.pets = new ArrayList<Pet>();
-            throw new RuntimeException(e);
+            // ignore exception and create empty list
         }
     }
 
+    @Override
     protected void persist(){
         try {
             this.mapper.writeValue(this.file, this.pets);

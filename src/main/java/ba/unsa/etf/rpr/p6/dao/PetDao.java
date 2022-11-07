@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Interface that declares how instances of Pet class will be stored into file or database or any other storage.
+ */
 public interface PetDao {
 
     public Pet save(Pet pet) throws IOException;

@@ -6,9 +6,14 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PetDaoJavaImpl extends PetDaoFile{
+/**
+ * Persistance into file using Java Serialization
+ * @author Dino Keco
+ */
+public class PetDaoJavaImpl extends AbstractPetDaoFile {
 
-    public PetDaoJavaImpl() {
+    @Override
+    protected void setup() {
         this.file = new File("mypets.dat");
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(this.file));
@@ -20,6 +25,7 @@ public class PetDaoJavaImpl extends PetDaoFile{
         }
     }
 
+    @Override
     protected void persist() throws IOException{
         ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(this.file));
         out.writeObject(this.pets);

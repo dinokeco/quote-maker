@@ -3,6 +3,7 @@ package ba.unsa.etf.rpr.p6;
 import ba.unsa.etf.rpr.p6.dao.PetDao;
 import ba.unsa.etf.rpr.p6.dao.PetDaoJavaImpl;
 import ba.unsa.etf.rpr.p6.dao.PetDaoJsonImpl;
+import ba.unsa.etf.rpr.p6.dao.PetDaoXmlImpl;
 
 import java.util.List;
 
@@ -13,10 +14,10 @@ public class Main {
         p.setId(3);
         p.setName("Figaro2");
 
-        PetDao dao = new PetDaoJsonImpl();
-        //dao.save(p);
+        PetDao dao = new PetDaoXmlImpl();
+        dao.save(p);
        //dao.update(p);
-       dao.delete(p);
+       //dao.delete(p);
         List<Pet> pets = dao.getAll();
         System.out.println(pets);
         //System.out.println(p);

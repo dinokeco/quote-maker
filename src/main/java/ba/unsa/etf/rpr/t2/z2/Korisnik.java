@@ -27,4 +27,11 @@ public class Korisnik extends Osoba{
         return Objects.equals(racun, korisnik.racun);
     }
 
+    public Racun getRacun() {
+        return racun;
+    }
+
+    public void setRacun(Racun racun) {
+        this.racun = racun;
+    }
 }

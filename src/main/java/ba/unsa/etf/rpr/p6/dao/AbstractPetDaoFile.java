@@ -6,16 +6,30 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-public abstract class PetDaoFile implements PetDao{
+public abstract class AbstractPetDaoFile implements PetDao{
 
     protected File file;
     protected List<Pet> pets;
 
+    public AbstractPetDaoFile(){
+        setup();
+    }
+
+    /**
+     * setup method has to create file that is used to store data and read stored data (deserialize) into the pets variable
+     */
+    protected abstract void setup();
+
+    /**
+     * Persist method has to save list of pets into the file with appropriate serialization
+     * @throws IOException in case when not able to save to file
+     */
     protected abstract void persist() throws IOException;
 
     /**
-     * @param pet
-     * @return
+     * Saves pet into the file
+     * @param pet pet instance
+     * @return saved pet
      */
     @Override
     public Pet save(Pet pet) throws IOException {
@@ -25,7 +39,8 @@ public abstract class PetDaoFile implements PetDao{
     }
 
     /**
-     * @return
+     * Lists all pets in the storage
+     * @return list of all pets
      */
     @Override
     public List<Pet> getAll() {
@@ -33,8 +48,9 @@ public abstract class PetDaoFile implements PetDao{
     }
 
     /**
-     * @param pet
-     * @return
+     * Delete pet from the file
+     * @param pet to delete
+     * @return deleted pet
      */
     @Override
     public Pet delete(Pet pet) throws IOException {
@@ -44,8 +60,9 @@ public abstract class PetDaoFile implements PetDao{
     }
 
     /**
-     * @param pet
-     * @return
+     * overwrites the pet with given ID. If not found update doesn't do any changes
+     * @param pet to update
+     * @return updated pet
      */
     @Override
     public Pet update(Pet pet) throws IOException {
@@ -60,8 +77,9 @@ public abstract class PetDaoFile implements PetDao{
     }
 
     /**
-     * @param id
-     * @return
+     * finds a pet with given ID
+     * @param id of the pet
+     * @return Pet or null
      */
     @Override
     public Pet get(Integer id) {
@@ -74,8 +92,9 @@ public abstract class PetDaoFile implements PetDao{
     }
 
     /**
-     * @param criteria
-     * @return
+     * Search pet by name
+     * @param criteria - name of the pet. This can be update to have more flexible search
+     * @return Pet or null
      */
     @Override
     public Pet search(String criteria) {
