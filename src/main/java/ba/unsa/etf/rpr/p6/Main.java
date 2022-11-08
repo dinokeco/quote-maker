@@ -1,25 +1,34 @@
 package ba.unsa.etf.rpr.p6;
 
-import ba.unsa.etf.rpr.p6.dao.PetDao;
-import ba.unsa.etf.rpr.p6.dao.PetDaoJavaImpl;
-import ba.unsa.etf.rpr.p6.dao.PetDaoJsonImpl;
-import ba.unsa.etf.rpr.p6.dao.PetDaoXmlImpl;
+import ba.unsa.etf.rpr.p6.dao.*;
 
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws Exception{
 
-        Pet p = new Pet();
-        p.setId(3);
-        p.setName("Figaro2");
+        Toy t = new Toy();
+        t.setId(1);
+        t.setName("Autic2");
 
-        PetDao dao = new PetDaoXmlImpl();
-        dao.save(p);
-       //dao.update(p);
-       //dao.delete(p);
-        List<Pet> pets = dao.getAll();
-        System.out.println(pets);
-        //System.out.println(p);
+        Toy t2 = new Toy();
+        t2.setId(2);
+        t2.setName("Kliker");
+
+        ToyDao dao = new ToyDaoJson();
+
+
+        List<Toy> list = dao.getAll();
+        System.out.println(list);
+
+        //dao.save(t2);
+       // dao.save(t2);
+        dao.update(t);
+
+
+        list = dao.getAll();
+        System.out.println(list);
+
+
     }
 }
