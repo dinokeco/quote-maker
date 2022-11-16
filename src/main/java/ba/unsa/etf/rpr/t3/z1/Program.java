@@ -9,7 +9,6 @@ public class Program {
 
     public static void main(String[] args) {
         popuniPodatke();
-
         while(true){
             System.out.println("Unesite komandu [dodaj, dajBroj, dajIme, naSlovo, izGrada, izGradaBrojevi, imenik, izlaz]");
             String command = scanner.nextLine();
@@ -84,7 +83,6 @@ public class Program {
             System.out.println("Vlasnik broja "+ br.ispisi()+" je "+ ime);
         }
     }
-
     private static TelefonskiBroj unesiBrojTelefona(){
         System.out.println("Unesite tip broja[fiksni, mobilni, medunarodni]:");
         String type = scanner.nextLine();
@@ -95,7 +93,6 @@ public class Program {
                 System.out.println("Unesite broj: ");
                 String broj = scanner.nextLine();
                 return new FiksniBroj(Grad.izPozivnog(pozivni), broj);
-
             case "mobilni":
                 System.out.println("Unesite mrezu: ");
                 int mreza = scanner.nextInt();

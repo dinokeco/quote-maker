@@ -32,6 +32,7 @@ public enum Grad {
     Grad(String pozivniBroj){
         this.pozivniBroj = pozivniBroj;
     }
+
     public static Grad izPozivnog(String pozivni){
         for(Grad g: Grad.values()){
             if (g.getPozivniBroj().equals(pozivni)){

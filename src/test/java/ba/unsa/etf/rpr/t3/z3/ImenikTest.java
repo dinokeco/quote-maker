@@ -23,9 +23,11 @@ public class ImenikTest {
 
     @Test
     public void testMockExternal(){
+        // mock setup stage
         Imenik i = Mockito.mock(Imenik.class);
         Mockito.when(i.dajBroj("Eldar")).thenReturn("Nema nista");
 
+        // test stage
         String test = i.dajBroj("Eldar");
         assertEquals(test, "Nema nista");
     }
@@ -40,7 +42,5 @@ public class ImenikTest {
         assertNotEquals(br, "033/225-883");
         assertEquals(br, "036/225-883");
     }
-
-
 
 }

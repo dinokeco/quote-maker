@@ -23,6 +23,11 @@ public class Imenik {
         this.brojevi = brojevi;
     }
 
+    /**
+     * Dodaje broj u imenik
+     * @param ime - vlasnik broja
+     * @param broj - broj telefona mob, fix, inter
+     */
     public void dodaj(String ime, TelefonskiBroj broj) {
         this.brojevi.put(ime, broj);
     }
