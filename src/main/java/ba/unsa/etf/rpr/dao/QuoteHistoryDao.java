@@ -19,4 +19,5 @@ public interface QuoteHistoryDao extends Dao<QuoteHistory> {
      * @return List of quotes from history table
      */
     List<QuoteHistory> getByDateRange(Date start, Date end);
+
 }

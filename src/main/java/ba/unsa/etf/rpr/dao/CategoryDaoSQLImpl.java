@@ -12,7 +12,7 @@ public class CategoryDaoSQLImpl implements CategoryDao{
 
     public CategoryDaoSQLImpl(){
         try{
-            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/root", "root", "root");
+            this.connection = DriverManager.getConnection("jdbc:mysql://sql7.freemysqlhosting.net:3306/sql7582258", "sql7582258", "m6JTHrdhjw");
         }catch (Exception e){
             e.printStackTrace();
         }
