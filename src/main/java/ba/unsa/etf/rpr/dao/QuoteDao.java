@@ -1,5 +1,6 @@
 package ba.unsa.etf.rpr.dao;
 
+import ba.unsa.etf.rpr.domain.Category;
 import ba.unsa.etf.rpr.domain.Quote;
 
 import java.util.List;
@@ -18,4 +19,12 @@ public interface QuoteDao extends Dao<Quote>{
      * @return list of quotes
      */
     List<Quote> searchByText(String text);
+
+    /**
+     * Returns all quotes that contains given text.
+     *
+     * @param category search string for quotes
+     * @return list of quotes
+     */
+    List<Quote> searchByCategory(Category category);
 }
