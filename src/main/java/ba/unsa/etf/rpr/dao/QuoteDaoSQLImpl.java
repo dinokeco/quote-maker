@@ -13,7 +13,7 @@ public class QuoteDaoSQLImpl implements QuoteDao{
 
     public QuoteDaoSQLImpl() {
         try {
-            this.connection = DriverManager.getConnection("jdbc:mysql://sql7.freemysqlhosting.net:3306/sql7582293", "sql7582293", "26sKDpP3WW");
+            this.connection = DriverManager.getConnection("jdbc:mysql://sql7.freemysqlhosting.net:3306/root", "root", "root");
         } catch (SQLException e) {
             e.printStackTrace();
         }
