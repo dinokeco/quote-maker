@@ -118,7 +118,7 @@ public class QuoteDaoSQLImpl implements QuoteDao{
                 Quote q = new Quote();
                 q.setId(rs.getInt(1));
                 q.setQuote(rs.getString(2));
-                q.setCategory(returnCategoryForId(rs.getInt(4)));
+                q.setCategory(category);
                 q.setCreated(rs.getDate(3));
                 quoteLista.add(q);
             }
