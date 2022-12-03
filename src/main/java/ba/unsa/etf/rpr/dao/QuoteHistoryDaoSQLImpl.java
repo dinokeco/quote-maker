@@ -1,9 +1,6 @@
 package ba.unsa.etf.rpr.dao;
 
-import ba.unsa.etf.rpr.domain.Category;
-import ba.unsa.etf.rpr.domain.Quote;
 import ba.unsa.etf.rpr.domain.QuoteHistory;
-import com.sun.org.apache.xpath.internal.operations.Quo;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -31,7 +28,7 @@ public class QuoteHistoryDaoSQLImpl implements QuoteHistoryDao{
             if (rs.next()){
                 QuoteHistory quoteHistory = new QuoteHistory();
                 quoteHistory.setId(rs.getInt("id"));
-                quoteHistory.setQuote(QuoteDaoSQLImpl(getQuoteById(rs.getString("quote")))); //ovo samo kad se doda implementacija i toga ce raditi....
+                quoteHistory.setQuote(new QuoteDaoSQLImpl().getById(rs.getInt("quote"))); //ovo samo kad se doda implementacija i toga ce raditi....
                 rs.close();
                 return quoteHistory;
             }else{
@@ -113,7 +110,7 @@ public class QuoteHistoryDaoSQLImpl implements QuoteHistoryDao{
             while (rs.next()){
                 QuoteHistory quoteHistory = new QuoteHistory();
                 quoteHistory.setId(rs.getInt("id"));
-                quoteHistory.setQuote(QuoteDaoSQLImpl(getQuoteById(rs.getString("quote")))); //ovo samo kad se doda implementacija i toga ce raditi....
+                quoteHistory.setQuote(new QuoteDaoSQLImpl().getById(rs.getInt("quote")));
                 histories.add(quoteHistory);
             }
             rs.close();
@@ -133,7 +130,7 @@ public class QuoteHistoryDaoSQLImpl implements QuoteHistoryDao{
             while (rs.next()){
                 QuoteHistory quoteHistory = new QuoteHistory();
                 quoteHistory.setId(rs.getInt("id"));
-                quoteHistory.setQuote(QuoteDaoSQLImpl(getQuoteById(rs.getString("quote")))); //ovo samo kad se doda implementacija i toga ce raditi....
+                quoteHistory.setQuote(new QuoteDaoSQLImpl().getById(rs.getInt("quote")));
                 histories.add(quoteHistory);
             }
             rs.close();
