@@ -4,36 +4,79 @@ import ba.unsa.etf.rpr.domain.Category;
 import ba.unsa.etf.rpr.domain.Quote;
 
 import java.sql.*;
+<<<<<<< HEAD
 import java.util.ArrayList;
+=======
+>>>>>>> ae36443407939f3bb584371aedf598dbd20286df
 import java.util.List;
 
 public class QuoteDaoSQLImpl implements QuoteDao{
 
     private Connection connection;
 
+<<<<<<< HEAD
     public QuoteDaoSQLImpl() {
         try {
             this.connection = DriverManager.getConnection("jdbc:mysql://sql7.freemysqlhosting.net:3306/root", "root", "root");
         } catch (SQLException e) {
+=======
+    public QuoteDaoSQLImpl(){
+        try{
+            this.connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/root", "root", "root");
+        }catch (Exception e){
+>>>>>>> ae36443407939f3bb584371aedf598dbd20286df
             e.printStackTrace();
         }
     }
 
     @Override
     public Quote getById(int id) {
+<<<<<<< HEAD
         return null;
     }
 
+=======
+        String query = "SELECT * FROM quotes WHERE id = ?";
+        try{
+            PreparedStatement stmt = this.connection.prepareStatement(query);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()){ // result set is iterator.
+                Quote quote = new Quote();
+                quote.setId(rs.getInt("id"));
+                quote.setQuote(rs.getString("quote"));
+                quote.setCreated(rs.getDate("created"));
+                rs.close();
+                return quote;
+            }else{
+                return null; // if there is no elements in the result set return null
+            }
+        }catch (SQLException e){
+            e.printStackTrace(); // poor error handling
+        }
+        return null;
+    }
+
+
+>>>>>>> ae36443407939f3bb584371aedf598dbd20286df
     @Override
     public Quote add(Quote item) {
         return null;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ae36443407939f3bb584371aedf598dbd20286df
     @Override
     public Quote update(Quote item) {
         return null;
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> ae36443407939f3bb584371aedf598dbd20286df
     @Override
     public void delete(int id) {
 
@@ -44,6 +87,7 @@ public class QuoteDaoSQLImpl implements QuoteDao{
         return null;
     }
 
+<<<<<<< HEAD
     /**
      * @author ahajro2
      * @param id for searching category for quotes
@@ -126,6 +170,15 @@ public class QuoteDaoSQLImpl implements QuoteDao{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+=======
+    @Override
+    public List<Quote> searchByText(String text) {
+        return null;
+    }
+
+    @Override
+    public List<Quote> getByCategory(Category category) {
+>>>>>>> ae36443407939f3bb584371aedf598dbd20286df
         return null;
     }
 }
