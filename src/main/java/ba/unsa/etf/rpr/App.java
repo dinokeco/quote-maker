@@ -33,7 +33,7 @@ public class App {
 //        System.out.println(categories);
 //    }
 
-        QuoteDao dao = new QuoteDaoSQLImpl();
+        QuoteDao dao = new QuoteDaoSQLImpl() ;
 
         Category category = new Category();
         category.setId(2);
