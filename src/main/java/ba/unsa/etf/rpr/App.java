@@ -1,15 +1,14 @@
 package ba.unsa.etf.rpr;
 
-import ba.unsa.etf.rpr.dao.CategoryDao;
-import ba.unsa.etf.rpr.dao.CategoryDaoSQLImpl;
-import ba.unsa.etf.rpr.dao.QuoteDao;
-import ba.unsa.etf.rpr.dao.QuoteDaoSQLImpl;
+import ba.unsa.etf.rpr.dao.*;
 import ba.unsa.etf.rpr.domain.Category;
 import ba.unsa.etf.rpr.domain.Quote;
+import ba.unsa.etf.rpr.domain.QuoteHistory;
+import ba.unsa.etf.rpr.exceptions.QuoteException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.*;
 
 /**
  * Hello world!
@@ -17,36 +16,23 @@ import java.util.Stack;
  * saso mange
  */
 public class App {
-    public static void main(String[] args) {
-//    {
-//        CategoryDao dao = new CategoryDaoSQLImpl();
-//
-//
-//        List<Category> categories = dao.getAll();
-//        System.out.println(categories);
-//
-//        Category c2 = new Category();
-//        c2.setId(2);
-//        c2.setName("Courage");
-//        dao.delete(2);
-//        categories = dao.getAll();
-//        System.out.println(categories);
-//    }
+    public static void main(String[] args) throws Exception {
+        Category cat = DaoFactory.categoryDao().getById(1);
+        Quote q = DaoFactory.quoteDao().getById(1);
 
-        QuoteDao dao = new QuoteDaoSQLImpl() ;
+        QuoteHistory h = new QuoteHistory();
+        h.setQuote(q);
+        h.setGenerated(new Date());
+        DaoFactory.quoteHistoryDao().add(h);
 
-        Category category = new Category();
-        category.setId(2);
-        category.setName("Narodne izreke");
-        ArrayList<Quote> quotesByCategory = new ArrayList<Quote>(dao.searchByCategory(category));
-        System.out.println("Treba ispisati 2 quote-a po ovoj kategoriji: ");
-        quotesByCategory.forEach(q -> System.out.println(q.getQuote()));
-
-
-        System.out.println("\n Jedan quote sa inside word \"gora\": ");
-        ArrayList<Quote> quotes = new ArrayList<Quote>(dao.searchByText("gora"));
-        for (Quote q : quotes) {
-            System.out.println(q.getQuote());
-        }
+        Date start = new Date();
+        start.setTime(1671024938);
+        Date end = new Date();
+        end.setTime(1671197738);
+        List<QuoteHistory> history = DaoFactory.quoteHistoryDao().getByDateRange(start, end);
+        System.out.println(q);
+        System.out.println(cat);
+        System.out.println(h);
+        System.out.println(history);
     }
 }

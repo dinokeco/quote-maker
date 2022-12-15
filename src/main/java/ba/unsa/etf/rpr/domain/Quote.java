@@ -7,7 +7,7 @@ import java.util.Objects;
  * bean for quote
  * @author Dino Keco
  */
-public class Quote {
+public class Quote implements Idable{
 
     private int id;
     private String quote;

@@ -1,143 +1,60 @@
 package ba.unsa.etf.rpr.dao;
 
 import ba.unsa.etf.rpr.domain.QuoteHistory;
+import ba.unsa.etf.rpr.exceptions.QuoteException;
 
 import java.sql.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Date;
-import java.util.List;
 
-public class QuoteHistoryDaoSQLImpl implements QuoteHistoryDao{
-    private Connection conn;
+/**
+ * MySQL implementation of DAO
+ * @author Dino Keco
+ */
+public class QuoteHistoryDaoSQLImpl extends AbstractDao<QuoteHistory> implements QuoteHistoryDao{
 
     public QuoteHistoryDaoSQLImpl() {
-        try {
-            this.conn= DriverManager.getConnection("jdbc:mysql://sql7.freemysqlhosting.net:3306/sql7582258", "sql7582258", "m6JTHrdhjw");
-        } catch (SQLException e) {
-            System.out.println("Greska u radu sa bazom podataka");
-            System.out.println(e.getMessage());
-        }
+        super("quote_history");
     }
 
     @Override
-    public QuoteHistory getById(int id) {
-        try {
-            PreparedStatement stmt = this.conn.prepareStatement("SELECT * FROM categories WHERE id = ?");
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()){
-                QuoteHistory quoteHistory = new QuoteHistory();
-                quoteHistory.setId(rs.getInt("id"));
-                quoteHistory.setQuote(new QuoteDaoSQLImpl().getById(rs.getInt("quote"))); //ovo samo kad se doda implementacija i toga ce raditi....
-                rs.close();
-                return quoteHistory;
-            }else{
-                return null;
-            }
-        } catch (SQLException e) {
-            System.out.println("Problem pri radu sa bazom podataka");
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-
-    private int getMaxId(){
-        int id=1;
-        try {
-            PreparedStatement statement = this.conn.prepareStatement("SELECT MAX(id)+1 FROM quote_history");
-            ResultSet rs = statement.executeQuery();
-            if(rs.next()) {
-                id = rs.getInt(1);
-                rs.close();
-                return id;
-            }
-        } catch (SQLException e) {
-            System.out.println("Problem pri radu sa bazom podataka");
-            System.out.println(e.getMessage());
-        }
-      return id;
-    }
-
-    @Override
-    public QuoteHistory add(QuoteHistory item) {
-        int id = getMaxId();
-        try {
-            PreparedStatement stmt = this.conn.prepareStatement("INSERT INTO quote_history VALUES (id, item.getQuote().getId(), item.getGenerated())");
-            stmt.executeUpdate();
-            item.setId(id);
-            return item;
-        } catch (SQLException e) {
-            System.out.println("Problem pri radu sa bazom podataka");
-            System.out.println(e.getMessage());
-        }
-        return null;
-    }
-
-    @Override
-    public QuoteHistory update(QuoteHistory item) {
+    public QuoteHistory row2object(ResultSet rs) throws QuoteException {
         try{
-            PreparedStatement stmt = this.conn.prepareStatement("UPDATE quote_history SET quote=?, generated=? WHERE id=?");
-            stmt.setInt(1, item.getQuote().getId());
-            stmt.setDate(2, (java.sql.Date) item.getGenerated());
-            stmt.setInt(3, item.getId());
-            stmt.executeUpdate();
-            return item;
+            QuoteHistory history = new QuoteHistory();
+            history.setId(rs.getInt("id"));
+            history.setGenerated(rs.getDate("generated"));
+            history.setQuote(DaoFactory.quoteDao().getById(rs.getInt("quote_id")));
+            return history;
         }catch (SQLException e){
-            System.out.println("Problem pri radu sa bazom podataka");
-            System.out.println(e.getMessage());
+            throw new QuoteException(e.getMessage(), e);
         }
-        return null;
+
     }
 
     @Override
-    public void delete(int id) {
-        try{
-            PreparedStatement stmt = this.conn.prepareStatement("DELETE FROM quote_history WHERE id = ?");
-            stmt.setInt(1, id);
-            stmt.executeUpdate();
-        }catch (SQLException e){
-            System.out.println("Problem pri radu sa bazom podataka");
-            System.out.println(e.getMessage());
-        }
+    public Map<String, Object> object2row(QuoteHistory object) {
+        Map<String, Object> item = new TreeMap<String, Object>();
+        item.put("id", object.getId());
+        item.put("quote_id", object.getQuote().getId());
+        item.put("generated", object.getGenerated());
+        return item;
     }
 
     @Override
-    public List<QuoteHistory> getAll() {
+    public List<QuoteHistory> getByDateRange(Date start, Date end) throws QuoteException {
         List<QuoteHistory> histories = new ArrayList<>();
         try{
-            PreparedStatement stmt = this.conn.prepareStatement("SELECT * FROM quote_history");
+            PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM quote_history WHERE generated BETWEEN ? AND ?");
+            stmt.setObject(1, start);
+            stmt.setObject(2, end);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()){
-                QuoteHistory quoteHistory = new QuoteHistory();
-                quoteHistory.setId(rs.getInt("id"));
-                quoteHistory.setQuote(new QuoteDaoSQLImpl().getById(rs.getInt("quote")));
-                histories.add(quoteHistory);
+                histories.add(row2object(rs));
             }
             rs.close();
+            return histories;
         }catch (SQLException e){
-            System.out.println("Problem pri radu sa bazom podataka");
-            System.out.println(e.getMessage());
+            throw new QuoteException(e.getMessage(), e);
         }
-        return histories;
-    }
-
-    @Override
-    public List<QuoteHistory> getByDateRange(Date start, Date end) {
-        List<QuoteHistory> histories = new ArrayList<>();
-        try{
-            PreparedStatement stmt = this.conn.prepareStatement("SELECT * FROM quote_history WHERE generated BETWEEN start AND end");
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                QuoteHistory quoteHistory = new QuoteHistory();
-                quoteHistory.setId(rs.getInt("id"));
-                quoteHistory.setQuote(new QuoteDaoSQLImpl().getById(rs.getInt("quote")));
-                histories.add(quoteHistory);
-            }
-            rs.close();
-        }catch (SQLException e){
-            System.out.println("Problem pri radu sa bazom podataka");
-            System.out.println(e.getMessage());
-        }
-        return histories;
     }
 }

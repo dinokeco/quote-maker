@@ -1,0 +1,3 @@
+db.connection_string=localhost
+db.username=root
+db.password=root

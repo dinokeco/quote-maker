@@ -2,6 +2,7 @@ package ba.unsa.etf.rpr.dao;
 
 import ba.unsa.etf.rpr.domain.Category;
 import ba.unsa.etf.rpr.domain.Quote;
+import ba.unsa.etf.rpr.exceptions.QuoteException;
 
 import java.util.List;
 
@@ -18,7 +19,7 @@ public interface QuoteDao extends Dao<Quote>{
      * @param text search string for quotes
      * @return list of quotes
      */
-    List<Quote> searchByText(String text);
+    List<Quote> searchByText(String text) throws QuoteException;
 
     /**
      * Returns all quotes that contains given text.
@@ -26,5 +27,5 @@ public interface QuoteDao extends Dao<Quote>{
      * @param category search string for quotes
      * @return list of quotes
      */
-    List<Quote> searchByCategory(Category category);
+    List<Quote> searchByCategory(Category category) throws QuoteException;
 }

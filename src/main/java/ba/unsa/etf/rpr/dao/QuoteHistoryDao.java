@@ -1,6 +1,7 @@
 package ba.unsa.etf.rpr.dao;
 
 import ba.unsa.etf.rpr.domain.QuoteHistory;
+import ba.unsa.etf.rpr.exceptions.QuoteException;
 
 import java.util.Date;
 import java.util.List;
@@ -18,6 +19,6 @@ public interface QuoteHistoryDao extends Dao<QuoteHistory> {
      * @param end end date
      * @return List of quotes from history table
      */
-    List<QuoteHistory> getByDateRange(Date start, Date end);
+    List<QuoteHistory> getByDateRange(Date start, Date end) throws QuoteException;
 
 }

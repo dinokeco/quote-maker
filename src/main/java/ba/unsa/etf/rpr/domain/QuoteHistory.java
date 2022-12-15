@@ -8,7 +8,7 @@ import java.util.Objects;
  *
  * @author Dino Keco
  */
-public class QuoteHistory {
+public class QuoteHistory implements Idable{
     private int id;
     private Quote quote;
     private Date generated;
@@ -48,5 +48,14 @@ public class QuoteHistory {
     @Override
     public int hashCode() {
         return Objects.hash(id, quote, generated);
+    }
+
+    @Override
+    public String toString() {
+        return "QuoteHistory{" +
+                "id=" + id +
+                ", quote=" + quote +
+                ", generated=" + generated +
+                '}';
     }
 }
