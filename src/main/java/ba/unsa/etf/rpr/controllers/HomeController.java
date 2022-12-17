@@ -19,6 +19,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -38,8 +39,6 @@ public class HomeController {
 
 
     /**
-     * @param none
-     * Controller's constructor for initializing dao class for managing categories
      *
      */
     public HomeController() {
@@ -75,24 +74,24 @@ public class HomeController {
 
     public void onActionShowQuote(ActionEvent actionEvent) {
         Quote quote = quotesTableView.getSelectionModel().getSelectedItem();
-        if(quote == null)
+        if (quote == null)
             return;
         try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/show-quote.fxml"));
-        ShowQuoteController showQuoteController = new ShowQuoteController(quote);
-        loader.setController(showQuoteController);
-        Parent root = loader.load();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
-        stage.setTitle("Show qoute page");
-        stage.show();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/show-quote.fxml"));
+            ShowQuoteController showQuoteController = new ShowQuoteController(quote);
+            loader.setController(showQuoteController);
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.setTitle("Show qoute page");
+            stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    public void onActionAddQuote(ActionEvent actionEvent){
+    public void onActionAddQuote(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/add-quote.fxml"));
             AddQuoteController addQuoteController = new AddQuoteController(categoryListView.getItems(), quoteDaoSQL);
@@ -108,6 +107,27 @@ public class HomeController {
     }
 
     public void onActionAddCategory(ActionEvent actionEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/add-category.fxml"));
+        AddCategoryController controller = new AddCategoryController();
+        loader.setController(controller);
+        Stage stage = new Stage();
+        try {
+            stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.setTitle("Add category");
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Nemoguce ucitati loader!");
+            System.out.println(e.getMessage());
+        }
 
+
+        stage.setOnHiding(lambda -> {
+            Category category = controller.getCategory();
+            if (category != null) {
+               categories.add(category);
+               categoryListView.refresh();
+            }
+        });
     }
 }
