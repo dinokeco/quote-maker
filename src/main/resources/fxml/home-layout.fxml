@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <MenuBar style="-fx-background-color: lightgray;" BorderPane.alignment="CENTER">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+   </top>
+   <left>
+      <HBox prefHeight="375.0" prefWidth="172.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="375.0" prefWidth="182.0">
+               <children>
+                  <Button fx:id="quoteAddBtn" mnemonicParsing="false" onAction="#onActionAddQuote" prefWidth="200.0" style="-fx-background-color: limegreen;" text="Add quote">
+                     <VBox.margin>
+                        <Insets left="5.0" right="5.0" top="10.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Button fx:id="catAddBtn" mnemonicParsing="false" onAction="#onActionAddCategory" prefWidth="200.0" style="-fx-background-color: lightblue;" text="Add category">
+                     <VBox.margin>
+                        <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Separator prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets top="-5.0" />
+                     </VBox.margin>
+                  </Separator>
+                  <Label alignment="CENTER" prefHeight="20.0" prefWidth="200.0" style="-fx-font-family: Arlal; -fx-font-style: solid; -fx-font-weight: 700;" text="QUOTE CATEGORIES">
+                     <VBox.margin>
+                        <Insets bottom="2.0" />
+                     </VBox.margin>
+                  </Label>
+                  <ListView fx:id="categoryListView" prefHeight="5000.0" prefWidth="0.0">
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" />
+                     </VBox.margin>
+                  </ListView>
+               </children>
+            </VBox>
+            <Separator orientation="VERTICAL" prefHeight="200.0" />
+         </children>
+      </HBox>
+   </left>
+   <center>
+      <VBox alignment="TOP_RIGHT" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="TOP_RIGHT">
+         <children>
+            <TableView fx:id="quotesTableView" prefHeight="385.0" prefWidth="428.0">
+              <columns>
+                <TableColumn fx:id="colQuoteId" prefWidth="42.0" text="ID" />
+                <TableColumn fx:id="colQuoteText" prefWidth="262.0" text="QUOTE" />
+                  <TableColumn fx:id="colQuoteDate" prefWidth="121.0" text="Quote Date" />
+              </columns>
+               <VBox.margin>
+                  <Insets right="2.0" top="2.0" />
+               </VBox.margin>
+            </TableView>
+            <Button fx:id="showQuoteBtn" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" onAction="#onActionShowQuote" text="Show quote details">
+               <VBox.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

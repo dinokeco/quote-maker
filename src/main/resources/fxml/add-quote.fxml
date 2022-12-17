@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="180.0" prefWidth="521.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <HBox alignment="CENTER_LEFT" prefHeight="39.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Choose category for your quote: ">
+               <HBox.margin>
+                  <Insets left="8.0" right="10.0" />
+               </HBox.margin>
+            </Label>
+            <ChoiceBox fx:id="choiceCatId" prefHeight="25.0" prefWidth="319.0">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </ChoiceBox>
+         </children>
+      </HBox>
+   </top>
+   <center>
+      <GridPane prefHeight="141.0" prefWidth="474.0" BorderPane.alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="293.0" minWidth="10.0" prefWidth="183.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="475.0" minWidth="10.0" prefWidth="318.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Label style="-fx-font-weight: 700;" text="Type in your quote:" />
+            <TextField fx:id="fldAddQuote" prefHeight="55.0" prefWidth="357.0" GridPane.columnIndex="1" />
+            <ButtonBar prefHeight="40.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+              <buttons>
+                  <Button fx:id="addQuoteBtnId" defaultButton="true" mnemonicParsing="false" onAction="#onActionAddQuote" text="Add" />
+                <Button fx:id="cancleBtnId" minWidth="69.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="Cancel" />
+              </buttons>
+            </ButtonBar>
+            <DatePicker fx:id="fldDatePickerId" prefHeight="54.0" prefWidth="357.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <GridPane.margin>
+                  <Insets bottom="5.0" top="5.0" />
+               </GridPane.margin>
+            </DatePicker>
+            <Label text="Choose specific date for quote:" GridPane.rowIndex="1" />
+         </children>
+         <BorderPane.margin>
+            <Insets left="10.0" right="8.0" />
+         </BorderPane.margin>
+      </GridPane>
+   </center>
+</BorderPane>
