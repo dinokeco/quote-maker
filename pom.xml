@@ -70,13 +70,21 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <groupId>org.openjfx</groupId>
+          <artifactId>javafx-maven-plugin</artifactId>
+          <version>0.0.8</version>
+          <configuration>
+            <mainClass>ba.unsa.etf.rpr.AppFX</mainClass>
+          </configuration>
+        </plugin>
+        <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
           <configuration>
             <archive>
               <manifest>
                 <addClasspath>true</addClasspath>
-                <mainClass>ba.unsa.etf.rpr.t1.Numbers</mainClass>
+                <mainClass>ba.unsa.etf.rpr.AppFX</mainClass>
               </manifest>
             </archive>
           </configuration>
