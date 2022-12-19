@@ -17,8 +17,10 @@ import java.util.*;
  */
 public class App {
     public static void main(String[] args) throws Exception {
-        Category cat = DaoFactory.categoryDao().getById(1);
-        Quote q = DaoFactory.quoteDao().getById(1);
+        Quote cat = DaoFactory.quoteDao().getById(1);
+        System.out.println(cat);
+
+        /*Quote q = DaoFactory.quoteDao().getById(1);
 
         QuoteHistory h = new QuoteHistory();
         h.setQuote(q);
@@ -33,6 +35,6 @@ public class App {
         System.out.println(q);
         System.out.println(cat);
         System.out.println(h);
-        System.out.println(history);
+        System.out.println(history);*/
     }
 }

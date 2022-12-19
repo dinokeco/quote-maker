@@ -130,7 +130,7 @@ public class HomeController {
 
     public void openAbout(ActionEvent actionEvent){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/abou1t.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/about.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
             stage.setTitle("Add category");
@@ -138,6 +138,22 @@ public class HomeController {
             stage.show();
         }catch (Exception e){
             Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            alert.show();
+        }
+    }
+
+    public void openEditCategories(ActionEvent event){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/category.fxml"));
+            loader.setController(new CategoryController());
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.setTitle("Manage Categories");
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        }catch (Exception e){
+            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
+            alert.setTitle("Error");
             alert.show();
         }
     }
