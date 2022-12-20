@@ -27,6 +27,7 @@
           <Menu mnemonicParsing="false" text="Edit">
             <items>
               <MenuItem onAction="#openEditCategories" mnemonicParsing="false" text="Categories" />
+              <MenuItem onAction="#openEditQuotes" mnemonicParsing="false" text="Quotes" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
