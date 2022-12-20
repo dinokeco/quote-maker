@@ -6,9 +6,10 @@ import ba.unsa.etf.rpr.exceptions.QuoteException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.List;
 
@@ -22,6 +23,11 @@ public class CategoryController {
     public void initialize() {
         try {
             refreshCategories();
+            categoriesList.getSelectionModel().selectedItemProperty().addListener((obs, o, n)->{
+                if (n != null){
+                    categoryName.setText(n.getName());
+                }
+            });
         } catch (QuoteException e) {
             throw new RuntimeException(e);
         }
@@ -39,7 +45,14 @@ public class CategoryController {
     }
 
     public void updateCategory(ActionEvent event){
-
+        try {
+            Category cat = categoriesList.getSelectionModel().getSelectedItem();
+            cat.setName(categoryName.getText());
+            DaoFactory.categoryDao().update(cat);
+            refreshCategories();
+        }catch (QuoteException e){
+            throw new RuntimeException(e);
+        }
     }
 
     public void deleteCategory(ActionEvent event){
@@ -48,7 +61,11 @@ public class CategoryController {
             DaoFactory.categoryDao().delete(cat.getId());
             refreshCategories();
         }catch (QuoteException e){
-            throw new RuntimeException(e);
+            String msg = e.getMessage();
+            if (msg.contains("FOREIGN KEY")){
+                msg = "Cannot delete category which is related to quotes. First delete related quotes before deleting category.";
+            }
+            new Alert(Alert.AlertType.NONE, msg, ButtonType.OK).show();
         }
     }
 
@@ -56,6 +73,7 @@ public class CategoryController {
         try {
             List<Category> categories = DaoFactory.categoryDao().getAll();
             categoriesList.setItems(FXCollections.observableList(categories));
+            categoryName.setText("");
         } catch (QuoteException e) {
             throw new RuntimeException(e);
         }
