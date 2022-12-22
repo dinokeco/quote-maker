@@ -25,11 +25,11 @@
    <top>
       <HBox BorderPane.alignment="BOTTOM_RIGHT">
          <children>
-            <TextField alignment="CENTER" promptText="find a quote">
+            <TextField fx:id="search" alignment="CENTER" promptText="find a quote">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin></TextField>
-            <Button mnemonicParsing="false"  text="Search">
+            <Button mnemonicParsing="false" onAction="#searchQuotes" text="Search">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin></Button>

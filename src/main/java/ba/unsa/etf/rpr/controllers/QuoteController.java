@@ -1,69 +1,76 @@
 package ba.unsa.etf.rpr.controllers;
 
-import ba.unsa.etf.rpr.dao.DaoFactory;
+import ba.unsa.etf.rpr.business.QuoteManager;
+import ba.unsa.etf.rpr.controllers.components.DoubleButtonCellFactory;
 import ba.unsa.etf.rpr.domain.Quote;
 import ba.unsa.etf.rpr.exceptions.QuoteException;
 import javafx.collections.FXCollections;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.event.ActionEvent;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
-import javafx.util.Callback;
 
-import java.awt.event.ActionEvent;
 import java.util.Date;
+import java.util.Optional;
 
 public class QuoteController {
 
+    private final QuoteManager quoteManager = new QuoteManager();
+
     public TableView quotesTable;
+    public TextField search;
 
     public TableColumn<Quote, String> idColumn;
     public TableColumn<Quote, String> quoteColumn;
     public TableColumn<Quote, Date> createdColumn;
-    public TableColumn<Quote, Object> actionColumn;
+    public TableColumn<Quote, Integer> actionColumn;
 
     public void initialize(){
         idColumn.setCellValueFactory(new PropertyValueFactory<Quote, String>("id"));
         quoteColumn.setCellValueFactory(new PropertyValueFactory<Quote, String>("quote"));
         createdColumn.setCellValueFactory(new PropertyValueFactory<Quote, Date>("created"));
+        actionColumn.setCellValueFactory(new PropertyValueFactory<Quote, Integer>("id"));
 
-        actionColumn.setCellFactory(new Callback<TableColumn<Quote, Object>, TableCell<Quote, Object>>() {
-            @Override
-            public TableCell<Quote, Object> call(TableColumn<Quote, Object> quoteObjectTableColumn) {
-                return new DoubleButtonCell();
-            }
-        });
+        actionColumn.setCellFactory(new DoubleButtonCellFactory(editEvent -> {
+                int quoteId = Integer.parseInt(((Button)editEvent.getSource()).getUserData().toString());
+                editQuoteScene(quoteId);
+            }, (deleteEvent -> {
+                int quoteId = Integer.parseInt(((Button)deleteEvent.getSource()).getUserData().toString());
+                deleteQuote(quoteId);
+        })));
 
         try {
-            quotesTable.setItems(FXCollections.observableList(DaoFactory.quoteDao().getAll()));
+            quotesTable.setItems(FXCollections.observableList(quoteManager.getAll()));
+            quotesTable.refresh();
         } catch (QuoteException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK).show();
         }
-        System.out.println("quotes");
     }
 
     public void searchQuotes(ActionEvent event){
-        System.out.println("search");
-    }
-
-    public class DoubleButtonCell extends TableCell<Quote, Object>{
-        private Button edit;
-        private Button delete;
-
-        public DoubleButtonCell(){
-            edit = new Button("Edit");
-            delete = new Button("Delete");
-        }
-
-        @Override
-        protected void updateItem(Object o, boolean b) {
-            super.updateItem(o, b);
-            HBox box = new HBox();
-            box.getChildren().add(edit);
-            box.getChildren().add(delete);
-            setGraphic(box);
+        try {
+            quotesTable.setItems(FXCollections.observableList(quoteManager.searchQuotes(search.getText())));
+            quotesTable.refresh();
+        } catch (QuoteException e) {
+            new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK).show();
         }
     }
+
+    public void deleteQuote(int quoteId){
+        try {
+            Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete");
+            Optional<ButtonType> result = confirmation.showAndWait();
+            if (!result.get().getButtonData().isCancelButton()){
+                quoteManager.delete(quoteId);
+                quotesTable.setItems(FXCollections.observableList(quoteManager.getAll()));
+                quotesTable.refresh();
+            }
+        } catch (QuoteException e) {
+            new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK).show();
+        }
+    }
+
+    public void editQuoteScene(int quoteId){
+        // TODO implement
+    }
+
 }
