@@ -137,7 +137,7 @@ public class HomeController {
     }
 
     public void openEditQuotes(ActionEvent event){
-        openDialog("Manage Quotes", "/fxml/quote.fxml", null);
+        openDialog("Manage Quotes", "/fxml/quote.fxml", new QuoteController());
     }
 
     private void openDialog(String title, String file, Object controller){

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -7,21 +8,31 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 
-
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <TableView BorderPane.alignment="CENTER">
+      <TableView fx:id="quotesTable" BorderPane.alignment="CENTER">
         <columns>
-          <TableColumn prefWidth="75.0" text="C1" />
-          <TableColumn prefWidth="75.0" text="C2" />
+          <TableColumn fx:id="idColumn" minWidth="30.0" prefWidth="-1.0" text="ID" />
+          <TableColumn fx:id="quoteColumn" minWidth="300.0" prefWidth="-1.0" text="Quote" />
+            <TableColumn fx:id="createdColumn" minWidth="100.0" prefWidth="-1.0" text="Created" />
+            <TableColumn fx:id="actionColumn" minWidth="120.0" prefWidth="-1.0" text="Actions" />
         </columns>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
       </TableView>
    </center>
    <top>
       <HBox BorderPane.alignment="BOTTOM_RIGHT">
          <children>
-            <TextField alignment="CENTER" />
-            <Button mnemonicParsing="false" text="Button" />
+            <TextField alignment="CENTER" promptText="find a quote">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin></TextField>
+            <Button mnemonicParsing="false"  text="Search">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin></Button>
          </children>
       </HBox>
    </top>

@@ -40,6 +40,7 @@ public class CategoryController {
             c.setName(categoryName.getText());
             c = manager.add(c);
             categoriesList.getItems().add(c);
+            categoryName.setText("");
             //refreshCategories();
         }catch (QuoteException e){
             new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK).show();
