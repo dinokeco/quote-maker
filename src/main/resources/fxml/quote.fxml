@@ -29,10 +29,15 @@
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin></TextField>
-            <Button mnemonicParsing="false" onAction="#searchQuotes" text="Search">
+            <Button minWidth="60.0" mnemonicParsing="false" onAction="#searchQuotes" text="Search">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin></Button>
+            <Button alignment="CENTER" minWidth="60.0" mnemonicParsing="false" onAction="#addQuote" text="Add">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
          </children>
       </HBox>
    </top>

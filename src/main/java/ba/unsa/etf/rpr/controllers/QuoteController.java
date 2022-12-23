@@ -113,6 +113,15 @@ public class QuoteController {
         }
     }
 
+
+    /**
+     * Event handler for creation of quote
+     * @param event
+     */
+    public void addQuote(ActionEvent event){
+        editQuoteScene(null);
+    }
+
     /**
      * fetch quotes from DB
      */

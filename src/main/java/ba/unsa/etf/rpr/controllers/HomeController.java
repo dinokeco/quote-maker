@@ -34,10 +34,6 @@ public class HomeController {
     private ObservableList<Category> categories;
     private ObservableList<Quote> quotes;
 
-
-    /**
-     *
-     */
     public HomeController() {
         try {
             categoryDaoSQL = new CategoryDaoSQLImpl();
