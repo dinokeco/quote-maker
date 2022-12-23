@@ -16,11 +16,11 @@ import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 public class AppFX extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/home-layout.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/home.fxml"));
         HomeController homeController = new HomeController();
         fxmlLoader.setController(homeController);
         Parent root = fxmlLoader.load();
-        stage.setTitle("Quote-maker");
+        stage.setTitle("Quote Maker v1.0");
         stage.setScene(new Scene(root, USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
         stage.setResizable(false);
         stage.show();
