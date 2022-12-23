@@ -12,12 +12,17 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 
+/**
+ * JavaFX controller for category management
+ *
+ * @author Dino Keco
+ */
 public class CategoryController {
 
     private CategoryManager manager = new CategoryManager();
 
+    // components
     public ListView<Category> categoriesList;
-
     public TextField categoryName;
 
     @FXML
@@ -30,7 +35,7 @@ public class CategoryController {
                 }
             });
         } catch (QuoteException e) {
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK).show();
         }
     }
 
@@ -54,7 +59,7 @@ public class CategoryController {
             cat = manager.update(cat);
             refreshCategories();
         }catch (QuoteException e){
-            throw new RuntimeException(e);
+            new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK).show();
         }
     }
 
