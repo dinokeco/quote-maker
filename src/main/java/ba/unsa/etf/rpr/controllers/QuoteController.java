@@ -6,16 +6,33 @@ import ba.unsa.etf.rpr.domain.Quote;
 import ba.unsa.etf.rpr.exceptions.QuoteException;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.util.Date;
 import java.util.Optional;
 
-public class QuoteController {
+import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
+/**
+ * Controller for managing Quotes Entity
+ * @author Dino Keco
+ */
+public class QuoteController {
+    // managers
     private final QuoteManager quoteManager = new QuoteManager();
 
+    // helper components
+    @FXML
+    public BorderPane quoteScreen;
+
+    // components
     public TableView quotesTable;
     public TextField search;
 
@@ -38,14 +55,13 @@ public class QuoteController {
                 deleteQuote(quoteId);
         })));
 
-        try {
-            quotesTable.setItems(FXCollections.observableList(quoteManager.getAll()));
-            quotesTable.refresh();
-        } catch (QuoteException e) {
-            new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK).show();
-        }
+        refreshQuotes();
     }
 
+    /**
+     * search quote event handler
+     * @param event
+     */
     public void searchQuotes(ActionEvent event){
         try {
             quotesTable.setItems(FXCollections.observableList(quoteManager.searchQuotes(search.getText())));
@@ -55,22 +71,57 @@ public class QuoteController {
         }
     }
 
-    public void deleteQuote(int quoteId){
+    /**
+     * Event handler for deletion of quote. It has confirm box before deletion
+     * @param quoteId
+     */
+    public void deleteQuote(Integer quoteId){
         try {
             Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete");
             Optional<ButtonType> result = confirmation.showAndWait();
             if (!result.get().getButtonData().isCancelButton()){
                 quoteManager.delete(quoteId);
-                quotesTable.setItems(FXCollections.observableList(quoteManager.getAll()));
-                quotesTable.refresh();
+                refreshQuotes();
             }
         } catch (QuoteException e) {
             new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK).show();
         }
     }
 
-    public void editQuoteScene(int quoteId){
-        // TODO implement
+    /**
+     * Open form for editing or creating quote
+     *
+     * @param quoteId - only for edit if we know which quote is being edited.
+     */
+    public void editQuoteScene(Integer quoteId){
+        try{
+            ((Stage)quoteScreen.getScene().getWindow()).hide();
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/aoequote.fxml"));
+            loader.setController(new AoUQuoteController(quoteId));
+            Stage stage = new Stage();
+            stage.setScene(new Scene(loader.load(), USE_COMPUTED_SIZE, USE_COMPUTED_SIZE));
+            stage.initStyle(StageStyle.UTILITY);
+            stage.setTitle("Edit Quote");
+            stage.show();
+            stage.setOnHiding(event -> {
+                ((Stage)quoteScreen.getScene().getWindow()).show();
+                refreshQuotes();
+            });
+        }catch (Exception e){
+            new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK).show();
+        }
     }
 
+    /**
+     * fetch quotes from DB
+     */
+    private void refreshQuotes(){
+        try {
+            quotesTable.setItems(FXCollections.observableList(quoteManager.getAll()));
+            quotesTable.refresh();
+        } catch (QuoteException e) {
+            new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK).show();
+        }
+    }
 }

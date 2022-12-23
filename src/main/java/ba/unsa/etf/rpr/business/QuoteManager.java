@@ -20,4 +20,16 @@ public class QuoteManager {
         DaoFactory.quoteDao().delete(id);
     }
 
+    public Quote getById(int quoteId) throws QuoteException{
+        return DaoFactory.quoteDao().getById(quoteId);
+    }
+
+    public void update(Quote q) throws QuoteException{
+        DaoFactory.quoteDao().update(q);
+    }
+
+    public Quote add(Quote q) throws QuoteException{
+        return DaoFactory.quoteDao().add(q);
+    }
+
 }
