@@ -8,6 +8,11 @@ import ba.unsa.etf.rpr.exceptions.QuoteException;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Business Logic Layer for Quotes
+ *
+ * @author Dino Keco
+ */
 public class QuoteManager {
 
     public List<Quote> getAll() throws QuoteException {

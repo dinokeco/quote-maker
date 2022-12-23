@@ -6,6 +6,11 @@ import ba.unsa.etf.rpr.exceptions.QuoteException;
 
 import java.util.List;
 
+/**
+ * Business Logic Layer for management of Categories
+ *
+ * @author Dino Keco
+ */
 public class CategoryManager {
 
     public void validateCategoryName(String name) throws QuoteException{
