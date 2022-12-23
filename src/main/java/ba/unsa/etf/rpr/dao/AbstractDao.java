@@ -56,7 +56,7 @@ public abstract class AbstractDao<T extends Idable> implements Dao<T>{
 
     public List<T> getAll() throws QuoteException {
         String query = "SELECT * FROM "+ tableName;
-        List<T> results = new ArrayList<T>();
+        List<T> results = new ArrayList<>();
         try{
             PreparedStatement stmt = getConnection().prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
@@ -157,13 +157,13 @@ public abstract class AbstractDao<T extends Idable> implements Dao<T>{
                 questions.append(",");
             }
         }
-        return new AbstractMap.SimpleEntry<String,String>(columns.toString(), questions.toString());
+        return new AbstractMap.SimpleEntry<>(columns.toString(), questions.toString());
     }
 
     /**
      * Prepare columns for update statement id=?, name=?, ...
-     * @param row
-     * @return
+     * @param row - row to be converted intro string
+     * @return String for update statement
      */
     private String prepareUpdateParts(Map<String, Object> row){
         StringBuilder columns = new StringBuilder();
