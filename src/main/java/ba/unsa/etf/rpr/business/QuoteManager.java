@@ -32,4 +32,8 @@ public class QuoteManager {
         return DaoFactory.quoteDao().add(q);
     }
 
+    public Quote randomQuote() throws QuoteException{
+        return DaoFactory.quoteDao().randomQuote();
+    }
+
 }

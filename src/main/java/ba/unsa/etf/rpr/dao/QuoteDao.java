@@ -28,4 +28,12 @@ public interface QuoteDao extends Dao<Quote>{
      * @return list of quotes
      */
     List<Quote> searchByCategory(Category category) throws QuoteException;
+
+    /**
+     * Return random quote from database
+     *
+     * @return random quote
+     * @throws QuoteException
+     */
+    Quote randomQuote() throws QuoteException;;
 }

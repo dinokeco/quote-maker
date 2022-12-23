@@ -93,4 +93,24 @@ public class QuoteDaoSQLImpl extends AbstractDao<Quote> implements QuoteDao {
             throw new QuoteException(e.getMessage(), e);
         }
     }
+
+    /**
+     * @return
+     * @throws QuoteException
+     */
+    @Override
+    public Quote randomQuote() throws QuoteException {
+        String query = "SELECT * FROM quotes ORDER BY RAND() LIMIT 1";
+        try {
+            PreparedStatement stmt = getConnection().prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return row2object(rs);
+            }else {
+                return null;
+            }
+        } catch (SQLException e) {
+            throw new QuoteException(e.getMessage(), e);
+        }
+    }
 }

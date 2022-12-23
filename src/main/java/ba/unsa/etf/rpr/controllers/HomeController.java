@@ -1,11 +1,16 @@
 package ba.unsa.etf.rpr.controllers;
 
+import ba.unsa.etf.rpr.business.QuoteManager;
+import ba.unsa.etf.rpr.domain.Quote;
+import ba.unsa.etf.rpr.exceptions.QuoteException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -13,8 +18,18 @@ import static javafx.scene.layout.Region.USE_COMPUTED_SIZE;
 
 public class HomeController {
 
+    public Label quoteLabel;
+
+    private QuoteManager manager = new QuoteManager();
+
     @FXML
     public void initialize() {
+        try {
+            Quote q = manager.randomQuote();
+            quoteLabel.setText(q.getQuote());
+        } catch (QuoteException e) {
+            new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK).show();
+        }
     }
 
     public void closeApp(ActionEvent actionEvent){
@@ -43,9 +58,7 @@ public class HomeController {
             stage.initStyle(StageStyle.UTILITY);
             stage.show();
         }catch (Exception e){
-            Alert alert = new Alert(Alert.AlertType.ERROR, e.getMessage());
-            alert.setTitle("Error");
-            alert.show();
+            new Alert(Alert.AlertType.NONE, e.getMessage(), ButtonType.OK).show();
         }
     }
 }
