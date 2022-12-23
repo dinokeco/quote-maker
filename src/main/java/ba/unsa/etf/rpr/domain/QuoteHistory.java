@@ -11,7 +11,7 @@ import java.util.Objects;
 public class QuoteHistory implements Idable{
     private int id;
     private Quote quote;
-    private Date generated;
+    private Date created;
 
     public int getId() {
         return id;
@@ -29,12 +29,12 @@ public class QuoteHistory implements Idable{
         this.quote = quote;
     }
 
-    public Date getGenerated() {
-        return generated;
+    public Date getCreated() {
+        return created;
     }
 
-    public void setGenerated(Date generated) {
-        this.generated = generated;
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
     @Override
@@ -47,7 +47,7 @@ public class QuoteHistory implements Idable{
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, quote, generated);
+        return Objects.hash(id, quote, created);
     }
 
     @Override
@@ -55,7 +55,7 @@ public class QuoteHistory implements Idable{
         return "QuoteHistory{" +
                 "id=" + id +
                 ", quote=" + quote +
-                ", generated=" + generated +
+                ", created=" + created +
                 '}';
     }
 }

@@ -2,8 +2,10 @@ package ba.unsa.etf.rpr.business;
 
 import ba.unsa.etf.rpr.dao.DaoFactory;
 import ba.unsa.etf.rpr.domain.Quote;
+import ba.unsa.etf.rpr.domain.QuoteHistory;
 import ba.unsa.etf.rpr.exceptions.QuoteException;
 
+import java.util.Date;
 import java.util.List;
 
 public class QuoteManager {
@@ -33,7 +35,14 @@ public class QuoteManager {
     }
 
     public Quote randomQuote() throws QuoteException{
-        return DaoFactory.quoteDao().randomQuote();
+        Quote q = DaoFactory.quoteDao().randomQuote();
+        // save quote into history
+        QuoteHistory history = new QuoteHistory();
+        history.setCreated(new Date());
+        history.setQuote(q);
+        DaoFactory.quoteHistoryDao().add(history);
+
+        return q;
     }
 
 }

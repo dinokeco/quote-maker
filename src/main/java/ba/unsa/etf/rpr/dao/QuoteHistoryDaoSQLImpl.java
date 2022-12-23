@@ -22,7 +22,7 @@ public class QuoteHistoryDaoSQLImpl extends AbstractDao<QuoteHistory> implements
         try{
             QuoteHistory history = new QuoteHistory();
             history.setId(rs.getInt("id"));
-            history.setGenerated(rs.getDate("generated"));
+            history.setCreated(rs.getDate("created"));
             history.setQuote(DaoFactory.quoteDao().getById(rs.getInt("quote_id")));
             return history;
         }catch (SQLException e){
@@ -35,7 +35,7 @@ public class QuoteHistoryDaoSQLImpl extends AbstractDao<QuoteHistory> implements
         Map<String, Object> item = new TreeMap<>();
         item.put("id", object.getId());
         item.put("quote_id", object.getQuote().getId());
-        item.put("generated", object.getGenerated());
+        item.put("created", object.getCreated());
         return item;
     }
 

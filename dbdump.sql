@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.26, for macos11 (x86_64)
 --
--- Host: sql.freedb.tech    Database: freedb_RPRbaza
+-- Host: sql.freedb.tech    Database: freedb_quote-maker
 -- ------------------------------------------------------
 -- Server version	8.0.28
 
@@ -49,12 +49,12 @@ DROP TABLE IF EXISTS `quote_history`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `quote_history` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `generated` datetime NOT NULL,
-  `quote_id` int DEFAULT NULL,
+  `created` datetime NOT NULL,
+  `quote_id` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `quote_idx` (`quote_id`),
-  CONSTRAINT `quote` FOREIGN KEY (`quote_id`) REFERENCES `quotes` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `fk_quotehistory_quote_idx` (`quote_id`),
+  CONSTRAINT `fk_quotehistory_quote` FOREIGN KEY (`quote_id`) REFERENCES `quotes` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -63,6 +63,7 @@ CREATE TABLE `quote_history` (
 
 LOCK TABLES `quote_history` WRITE;
 /*!40000 ALTER TABLE `quote_history` DISABLE KEYS */;
+INSERT INTO `quote_history` VALUES (1,'2022-12-23 18:55:13',13);
 /*!40000 ALTER TABLE `quote_history` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -74,7 +75,7 @@ DROP TABLE IF EXISTS `quotes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `quotes` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `quote` varchar(300) NOT NULL,
   `created` datetime NOT NULL,
   `category_id` int NOT NULL,
@@ -82,7 +83,7 @@ CREATE TABLE `quotes` (
   UNIQUE KEY `id_UNIQUE` (`id`),
   KEY `category_id_idx` (`category_id`),
   CONSTRAINT `category_id` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -104,4 +105,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-12-20 12:00:59
+-- Dump completed on 2022-12-23 18:55:57
