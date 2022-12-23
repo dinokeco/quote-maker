@@ -4,8 +4,7 @@ import ba.unsa.etf.rpr.domain.Category;
 import ba.unsa.etf.rpr.domain.Quote;
 import ba.unsa.etf.rpr.exceptions.QuoteException;
 
-import java.sql.*;
-import java.util.ArrayList;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -35,12 +34,12 @@ public class QuoteDaoSQLImpl extends AbstractDao<Quote> implements QuoteDao {
     }
 
     /**
-     * @param object
-     * @return
+     * @param object - object to be mapped
+     * @return map representation of object
      */
     @Override
     public Map<String, Object> object2row(Quote object) {
-        Map<String, Object> item = new TreeMap<String, Object>();
+        Map<String, Object> item = new TreeMap<>();
         item.put("id", object.getId());
         item.put("quote", object.getQuote());
         item.put("created", object.getCreated());
@@ -56,20 +55,7 @@ public class QuoteDaoSQLImpl extends AbstractDao<Quote> implements QuoteDao {
 
     @Override
     public List<Quote> searchByText(String text) throws QuoteException{
-        //mora sa concat jer inace nece raditi jer radi sa key chars
-        String query = "SELECT * FROM quotes WHERE quote LIKE concat('%', ?, '%')";
-        try {
-            PreparedStatement stmt = getConnection().prepareStatement(query);
-            stmt.setString(1, text);
-            ResultSet rs = stmt.executeQuery();
-            ArrayList<Quote> quoteLista = new ArrayList<>();
-            while (rs.next()) {
-                quoteLista.add(row2object(rs));
-            }
-            return quoteLista;
-        } catch (SQLException e) {
-            throw new QuoteException(e.getMessage(), e);
-        }
+        return executeQuery("SELECT * FROM quotes WHERE quote LIKE concat('%', ?, '%')", new Object[]{text});
     }
 
     /**
@@ -79,38 +65,15 @@ public class QuoteDaoSQLImpl extends AbstractDao<Quote> implements QuoteDao {
      */
     @Override
     public List<Quote> searchByCategory(Category category) throws QuoteException{
-        String query = "SELECT * FROM quotes WHERE category_id = ?";
-        try {
-            PreparedStatement stmt = getConnection().prepareStatement(query);
-            stmt.setInt(1, category.getId());
-            ResultSet rs = stmt.executeQuery();
-            ArrayList<Quote> quoteLista = new ArrayList<>();
-            while (rs.next()) {
-                quoteLista.add(row2object(rs));
-            }
-            return quoteLista;
-        } catch (SQLException e) {
-            throw new QuoteException(e.getMessage(), e);
-        }
+        return executeQuery("SELECT * FROM quotes WHERE category_id = ?", new Object[]{category.getId()});
     }
 
     /**
-     * @return
-     * @throws QuoteException
+     * @return random quote from DB
+     * @throws QuoteException in case of error working with db
      */
     @Override
     public Quote randomQuote() throws QuoteException {
-        String query = "SELECT * FROM quotes ORDER BY RAND() LIMIT 1";
-        try {
-            PreparedStatement stmt = getConnection().prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                return row2object(rs);
-            }else {
-                return null;
-            }
-        } catch (SQLException e) {
-            throw new QuoteException(e.getMessage(), e);
-        }
+        return executeQueryUnique("SELECT * FROM quotes ORDER BY RAND() LIMIT 1", null);
     }
 }

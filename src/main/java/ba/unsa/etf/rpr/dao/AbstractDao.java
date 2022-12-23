@@ -2,13 +2,17 @@ package ba.unsa.etf.rpr.dao;
 
 import ba.unsa.etf.rpr.domain.Idable;
 import ba.unsa.etf.rpr.exceptions.QuoteException;
+
 import java.sql.*;
 import java.util.*;
 
 /**
  * Abstract class that implements core DAO CRUD methods for every entity
+ *
+ * @author Dino Keco
  */
 public abstract class AbstractDao<T extends Idable> implements Dao<T>{
+
     private Connection connection;
     private String tableName;
 
@@ -31,43 +35,31 @@ public abstract class AbstractDao<T extends Idable> implements Dao<T>{
         return this.connection;
     }
 
+    public void setConnection(Connection connection){
+        this.connection = connection;
+    }
+
+    /**
+     * Method for mapping ResultSet into Object
+     * @param rs - result set from database
+     * @return a Bean object for specific table
+     * @throws QuoteException in case of error with db
+     */
     public abstract T row2object(ResultSet rs) throws QuoteException;
 
+    /**
+     * Method for mapping Object into Map
+     * @param object - a bean object for specific table
+     * @return key, value sorted map of object
+     */
     public abstract Map<String, Object> object2row(T object);
 
     public T getById(int id) throws QuoteException {
-        String query = "SELECT * FROM "+this.tableName+" WHERE id = ?";
-        try {
-            PreparedStatement stmt = this.connection.prepareStatement(query);
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) { // result set is iterator.
-                T result = row2object(rs);
-                rs.close();
-                return result;
-            } else {
-                throw new QuoteException("Object not found");
-            }
-        } catch (SQLException e) {
-            throw new QuoteException(e.getMessage(), e);
-        }
+        return executeQueryUnique("SELECT * FROM "+this.tableName+" WHERE id = ?", new Object[]{id});
     }
 
     public List<T> getAll() throws QuoteException {
-        String query = "SELECT * FROM "+ tableName;
-        List<T> results = new ArrayList<>();
-        try{
-            PreparedStatement stmt = getConnection().prepareStatement(query);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){ // result set is iterator.
-                T object = row2object(rs);
-                results.add(object);
-            }
-            rs.close();
-            return results;
-        }catch (SQLException e){
-           throw new QuoteException(e.getMessage(), e);
-        }
+        return executeQuery("SELECT * FROM "+ tableName, null);
     }
 
     public void delete(int id) throws QuoteException {
@@ -134,6 +126,48 @@ public abstract class AbstractDao<T extends Idable> implements Dao<T>{
             return item;
         }catch (SQLException e){
             throw new QuoteException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Utility method for executing any kind of query
+     * @param query - SQL query
+     * @param params - params for query
+     * @return List of objects from database
+     * @throws QuoteException in case of error with db
+     */
+    public List<T> executeQuery(String query, Object[] params) throws QuoteException{
+        try {
+            PreparedStatement stmt = getConnection().prepareStatement(query);
+            if (params != null){
+                for(int i = 1; i <= params.length; i++){
+                    stmt.setObject(i, params[i-1]);
+                }
+            }
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<T> resultList = new ArrayList<>();
+            while (rs.next()) {
+                resultList.add(row2object(rs));
+            }
+            return resultList;
+        } catch (SQLException e) {
+            throw new QuoteException(e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Utility for query execution that always return single record
+     * @param query - query that returns single record
+     * @param params - list of params for sql query
+     * @return Object
+     * @throws QuoteException in case when object is not found
+     */
+    public T executeQueryUnique(String query, Object[] params) throws QuoteException{
+        List<T> result = executeQuery(query, params);
+        if (result != null && result.size() == 1){
+            return result.get(0);
+        }else{
+            throw new QuoteException("Object not found");
         }
     }
 

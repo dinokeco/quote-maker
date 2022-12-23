@@ -42,19 +42,6 @@ public class QuoteHistoryDaoSQLImpl extends AbstractDao<QuoteHistory> implements
 
     @Override
     public List<QuoteHistory> getByDateRange(Date start, Date end) throws QuoteException {
-        List<QuoteHistory> histories = new ArrayList<>();
-        try{
-            PreparedStatement stmt = getConnection().prepareStatement("SELECT * FROM quote_history WHERE generated BETWEEN ? AND ?");
-            stmt.setObject(1, start);
-            stmt.setObject(2, end);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()){
-                histories.add(row2object(rs));
-            }
-            rs.close();
-            return histories;
-        }catch (SQLException e){
-            throw new QuoteException(e.getMessage(), e);
-        }
+        return executeQuery("SELECT * FROM quote_history WHERE generated BETWEEN ? AND ?", new Object[]{start, end});
     }
 }
