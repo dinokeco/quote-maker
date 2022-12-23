@@ -28,12 +28,11 @@ public class QuoteHistoryDaoSQLImpl extends AbstractDao<QuoteHistory> implements
         }catch (SQLException e){
             throw new QuoteException(e.getMessage(), e);
         }
-
     }
 
     @Override
     public Map<String, Object> object2row(QuoteHistory object) {
-        Map<String, Object> item = new TreeMap<String, Object>();
+        Map<String, Object> item = new TreeMap<>();
         item.put("id", object.getId());
         item.put("quote_id", object.getQuote().getId());
         item.put("generated", object.getGenerated());
