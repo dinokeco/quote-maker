@@ -42,6 +42,13 @@ public abstract class AbstractDao<T extends Idable> implements Dao<T>{
     }
 
     public void setConnection(Connection connection){
+        if(AbstractDao.connection!=null) {
+            try {
+                AbstractDao.connection.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
         AbstractDao.connection = connection;
     }
 
