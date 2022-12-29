@@ -12,7 +12,6 @@ import java.util.Date;
  * @author Dino Keco
  */
 public class QuoteHistoryDaoSQLImpl extends AbstractDao<QuoteHistory> implements QuoteHistoryDao{
-
     public QuoteHistoryDaoSQLImpl() {
         super("quote_history");
     }
