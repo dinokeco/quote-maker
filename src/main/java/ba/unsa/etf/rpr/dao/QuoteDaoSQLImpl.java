@@ -15,8 +15,26 @@ import java.util.TreeMap;
  */
 public class QuoteDaoSQLImpl extends AbstractDao<Quote> implements QuoteDao {
 
-    public QuoteDaoSQLImpl() {
+    private static QuoteDaoSQLImpl instance = null;
+    private QuoteDaoSQLImpl() {
         super("quotes");
+    }
+
+    /**
+     * @author abrulic1
+     * @return QuoteDaoSQLImpl
+     * We don't need more than one object for CRUD operations on table 'quotes' so we will use Singleton
+     * This method will call private constructor in instance==null and then return that instance
+     */
+    public static QuoteDaoSQLImpl getInstance(){
+        if(instance==null)
+            instance = new QuoteDaoSQLImpl();
+        return instance;
+    }
+
+    public static void removeInstance(){
+        if(instance!=null)
+            instance=null;
     }
 
     @Override

@@ -1,7 +1,5 @@
 package ba.unsa.etf.rpr.dao;
 
-import java.sql.Connection;
-
 /**
  * Factory method for singleton implementation of DAOs
  *
@@ -9,9 +7,9 @@ import java.sql.Connection;
  */
 public class DaoFactory {
 
-    private static final CategoryDao categoryDao = new CategoryDaoSQLImpl();
-    private static final QuoteDao quoteDao = new QuoteDaoSQLImpl();
-    private static final QuoteHistoryDao quoteHistoryDao = new QuoteHistoryDaoSQLImpl();
+    private static final CategoryDao categoryDao = CategoryDaoSQLImpl.getInstance();
+    private static final QuoteDao quoteDao = QuoteDaoSQLImpl.getInstance();
+    private static final QuoteHistoryDao quoteHistoryDao = QuoteHistoryDaoSQLImpl.getInstance();
 
 
     private DaoFactory(){

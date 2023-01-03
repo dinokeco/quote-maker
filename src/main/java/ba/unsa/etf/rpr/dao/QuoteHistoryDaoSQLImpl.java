@@ -12,10 +12,21 @@ import java.util.Date;
  * @author Dino Keco
  */
 public class QuoteHistoryDaoSQLImpl extends AbstractDao<QuoteHistory> implements QuoteHistoryDao{
-    public QuoteHistoryDaoSQLImpl() {
+    private static QuoteHistoryDaoSQLImpl instance = null;
+    private QuoteHistoryDaoSQLImpl() {
         super("quote_history");
     }
 
+    public static QuoteHistoryDaoSQLImpl getInstance(){
+        if(instance==null)
+            instance = new QuoteHistoryDaoSQLImpl();
+        return instance;
+    }
+
+    public static void removeInstance(){
+        if(instance!=null)
+            instance=null;
+    }
     @Override
     public QuoteHistory row2object(ResultSet rs) throws QuoteException {
         try{

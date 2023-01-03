@@ -12,7 +12,6 @@ import java.util.*;
  * @author Dino Keco
  */
 public abstract class AbstractDao<T extends Idable> implements Dao<T>{
-
     private static Connection connection = null;
     private String tableName;
 
@@ -41,19 +40,14 @@ public abstract class AbstractDao<T extends Idable> implements Dao<T>{
         return AbstractDao.connection;
     }
 
-    public void setConnection(Connection connection){
-        if(AbstractDao.connection!=null) {
-            try {
-                AbstractDao.connection.close();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        AbstractDao.connection = connection;
-    }
+    /**
+     * For singleton pattern, we have only one connection on the database which will be closed automatically when our program ends
+     * But if we want to close connection manually, then we will call this method which should be called from finally block
+     */
 
-    public void removeConnection(){
-        if(this.connection!=null) {
+    public static void closeConnection() {
+        System.out.println("pozvana metoda za zatvaranje konekcije");
+        if(connection!=null) {
             try {
                 connection.close();
             } catch (SQLException e) {
