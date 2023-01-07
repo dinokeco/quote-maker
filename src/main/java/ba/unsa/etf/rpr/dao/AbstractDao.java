@@ -3,6 +3,8 @@ package ba.unsa.etf.rpr.dao;
 import ba.unsa.etf.rpr.domain.Idable;
 import ba.unsa.etf.rpr.exceptions.QuoteException;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
@@ -11,13 +13,13 @@ import java.util.*;
  *
  * @author Dino Keco
  */
-public abstract class AbstractDao<T extends Idable> implements Dao<T>{
+public abstract class AbstractDao<T extends Idable> implements Dao<T> {
     private static Connection connection = null;
     private String tableName;
 
     public AbstractDao(String tableName) {
         this.tableName = tableName;
-        if(connection==null) createConnection();
+        createConnection();
     }
 
     private static void createConnection(){
@@ -31,7 +33,17 @@ public abstract class AbstractDao<T extends Idable> implements Dao<T>{
                 AbstractDao.connection = DriverManager.getConnection(url, username, password);
             } catch (Exception e) {
                 e.printStackTrace();
-                System.exit(0);
+            }finally {
+                Runtime.getRuntime().addShutdownHook(new Thread(){
+                    @Override
+                    public void run(){
+                        try {
+                            connection.close();
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
             }
         }
     }
@@ -39,25 +51,6 @@ public abstract class AbstractDao<T extends Idable> implements Dao<T>{
     public static Connection getConnection(){
         return AbstractDao.connection;
     }
-
-    /**
-     * For singleton pattern, we have only one connection on the database which will be closed automatically when our program ends
-     * But if we want to close connection manually, then we will call this method which should be called from finally block
-     */
-
-    public static void closeConnection() {
-        System.out.println("pozvana metoda za zatvaranje konekcije");
-        if(connection!=null) {
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                //throw new RuntimeException(e);
-                e.printStackTrace();
-                System.out.println("REMOVE CONNECTION METHOD ERROR: Unable to close connection on database");
-            }
-        }
-    }
-
 
     /**
      * Method for mapping ResultSet into Object

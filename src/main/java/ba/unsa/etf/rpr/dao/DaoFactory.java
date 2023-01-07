@@ -10,8 +10,6 @@ public class DaoFactory {
     private static final CategoryDao categoryDao = CategoryDaoSQLImpl.getInstance();
     private static final QuoteDao quoteDao = QuoteDaoSQLImpl.getInstance();
     private static final QuoteHistoryDao quoteHistoryDao = QuoteHistoryDaoSQLImpl.getInstance();
-
-
     private DaoFactory(){
     }
 
